@@ -7,7 +7,7 @@ const BotCard = props => {
   const bot = props.bot;
 
   const handleClick = ()=> {
-    props.addBot(props.bot.id)
+    props.botClick(props.bot.id)
   }
 
   let botType 
