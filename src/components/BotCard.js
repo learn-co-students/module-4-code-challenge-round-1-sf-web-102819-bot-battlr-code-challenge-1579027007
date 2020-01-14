@@ -4,9 +4,14 @@ const BotCard = (props) => {
   
   let botType;
   
-  let recruit = () => {
+  // let recruit = () => {
+  //   let botData = props.botData
+  //   props.recruit(botData.id)
+  // }
+
+  let recruitPage = () => {
     let botData = props.botData
-    props.recruit(botData.id)
+    props.recruitPage(botData.id)
   }
 
   switch (props.botData.bot_class) {
@@ -28,7 +33,7 @@ const BotCard = (props) => {
       <div
         className="ui card"
         key={props.botData.id}
-        onClick={(e) => recruit(e)}
+        onClick={(e) => recruitPage(e)}
       >
         <div className="image">
           <img alt="oh no!" src={props.botData.avatar_url} />
