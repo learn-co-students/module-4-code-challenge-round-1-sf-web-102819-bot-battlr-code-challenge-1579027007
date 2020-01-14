@@ -29,12 +29,21 @@ class BotsPage extends React.Component {
         return previousState
       })}
   }
+
+  removeBot = (botId) => {
+
+    let botIndex = this.state.userBots.findIndex(bot => bot.id === botId)
+    this.setState(previousState => {
+      previousState.userBots.splice(botIndex, 1)
+      return previousState
+    })
+  }
   
 
   render() {
     return (
       <div>
-        <YourBotArmy userBots={this.state.userBots} />
+        <YourBotArmy userBots={this.state.userBots} addBot={this.removeBot}/>
         <BotCollection bots={this.state.bots} addBot={this.addBot}/>
       </div>
     );
