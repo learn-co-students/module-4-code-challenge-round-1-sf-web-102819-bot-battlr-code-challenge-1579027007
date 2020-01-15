@@ -19,7 +19,14 @@ const BotCard = props => {
       botType = <div />;
   }
 
+// const handleAddOrRemoveBot = () => {
+//   // console.log('Clicked!')
+//   props.addToArmy(bot.id)
+// console.log(bot)
 
+//   // if renderEnlistedBots includes bot object
+//   // props.removeFromArmy(bot.id)
+// }
 
 
   return (
@@ -27,7 +34,8 @@ const BotCard = props => {
       <div
         className="ui card"
         key={bot.id}
-        onClick={props.addBotToEnlistedArmy(bot)}
+        // Must have a function to invoke when clicked. Otherwise, it'd continiously call when the component renders
+        onClick={ () => props.handleBotClick(bot.id) }
       >
         <div className="image">
           <img alt="oh no!" src={bot.avatar_url} />

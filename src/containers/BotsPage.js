@@ -18,71 +18,63 @@ class BotsPage extends React.Component {
     fetch('https://bot-battler-api.herokuapp.com/api/v1/bots')
       .then(res => res.json())
       .then(data => {
-        console.log(data)
+        // console.log(data)
         this.setState({
           allBots: data
         })
       })
   }
 
-  // handleAddBotToEnlistedArmy = bot => {
-    // const botId = bot.id
-    // console.log(botId)
+  handleAddToArmy = botId => {
+    const botIndex = this.state.allBots.findIndex(bot => bot.id === botId)
+    // console.log(`botIndex: ${botIndex}`)
 
-    // let botIndex = this.state.allBots.findIndex(bot => bot.id === botId)
-    // let clickedBot = this.state.allBots[botIndex]
-    // // Prevent adding to enlistedBots again
-    // if (this.state.enlistedBots.includes(clickedBot)) {
-    //   return null
-    // } else {
-    //   this.setState(previousState => ({
-    //     enlistedBots: [
-    //         ...previousState.enlistedBots,
-    //         previousState.clickedBot
-    //       ]
+    const clickedBot = this.state.allBots[botIndex]
+    // console.log(`clickedBot: ${clickedBot}`)
 
-    //   }))
-    // }
+    if (!this.state.enlistedBots.includes(clickedBot)) {
+      this.setState(prevState => {
+        return {
+          enlistedBots: [...prevState.enlistedBots, clickedBot]
+        }
+      })
 
-  // }
-
-
-  // handleAddBotToEnlistedArmy = botId => {
-    // const enlistedBotIndex = this.state.enlistedBots.findIndex( bot => bot.id === botId)
-
-    // if (enlistedBotIndex === -1) {
-    //   const allBotIndex = this.state.allBots.findIndex( bot => bot.id === botId)
-    //   this.setState( prevState => {
-    //     enlistedBots: [...prevState.enlistedBots, prevState.allBots[allBotIndex]]
-    //   })
-    // }
-  // }
-
-handleAddBotToEnlistedArmy = botId => {
-  if(this.state.enlistedBots.some(bot => bot.id === botId)) {
-    let armyIndex = this.state.enlistedBots.findIndex(bot => bot.id === botId)
-    this.state.enlistedBots.splice(armyIndex)
-    this.setState({
-      enlistedBots: this.state.enlistedBots
-    })
-  } else {
-    let botIndex = this.state.allBots.findIndex(bot => bot.id === botId)
-    this.state.enlistedBots.push(this.state.allBots[botIndex])
-    this.setState({
-      enlistedBots: this.state.enlistedBots
-    })
+      // Removes it from allBots state object
+      this.state.allBots.splice(botIndex, 1)
+    } else {
+      return null
+    }
   }
-}
+
+  handleRemoveFromArmy = botId => {
+    // console.log(`removeFromArmy botIndex: `)
+    const botIndex = this.state.enlistedBots.findIndex(bot => bot.id === botId)
+    // console.log(`botIndex: ${botIndex}`)
+
+    const clickedBot = this.state.enlistedBots[botIndex]
+    // console.log(`clickedBot: ${clickedBot}`)
+
+    this.setState(prevState => {
+      return {
+        allBots: [clickedBot, ...prevState.allBots]
+      }
+    })
+
+    this.state.enlistedBots.splice(botIndex, 1)
+  }
 
   render() {
     return (
       <div>
         {/* put your components here */}
-        <YourBotArmy renderEnlistedArmy={this.state.enlistedArmy} />
+        <YourBotArmy
+          renderEnlistedBots={this.state.enlistedBots}
+          handleBotClick={this.handleRemoveFromArmy}
+        />
 
         <BotCollection
           renderAllBots={this.state.allBots}
-          addBotToEnlistedArmy={this.handleAddBotToEnlistedArmy}
+          handleBotClick={this.handleAddToArmy}
         />
 
         {/* <BotSpec /> */}
